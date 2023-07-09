@@ -43,15 +43,18 @@ class VideoLoader {
 class StoryVideo extends StatefulWidget {
   final StoryController? storyController;
   final VideoLoader videoLoader;
-
+  final String URL 
   StoryVideo(this.videoLoader, {this.storyController, Key? key})
       : super(key: key ?? UniqueKey());
 
-  static StoryVideo url(String url,
+  static StoryVideo url(
+    String url,
       {StoryController? controller,
       Map<String, dynamic>? requestHeaders,
-      Key? key}) {
-    return StoryVideo(
+      Key? key}) 
+      {
+        URL = url;
+        return StoryVideo(
       VideoLoader(url, requestHeaders: requestHeaders),
       storyController: controller,
       key: key,
@@ -79,8 +82,8 @@ class StoryVideoState extends State<StoryVideo> {
 
     widget.videoLoader.loadVideo(() {
       if (widget.videoLoader.state == LoadState.success) {
-        this.playerController =
-            VideoPlayerController.file(widget.videoLoader.videoFile!);
+        // URL
+        this.playerController = VideoPlayerController.networkUrl(Uri.parse(widget.URL));
 
         playerController!.initialize().then((v) {
           setState(() {});
